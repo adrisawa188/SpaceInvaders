@@ -15,20 +15,22 @@ namespace SpaceInvaders
         public int ySpeed = 15;
         public int x, y;
 
+
         public Bullet(int _x, int _y, int _ySpeed)
         {
             x = _x;
             y = _y;
             ySpeed = _ySpeed;
+
         }
         public void Move(string direction, Size ss)
         {
-            x += ySpeed;
+            y -= ySpeed;
 
-            if (x > ss.Height)
+            if (y > ss.Height - height)
             {
                 ySpeed *= -1;
             }
-        }
+        }      
     }
 }

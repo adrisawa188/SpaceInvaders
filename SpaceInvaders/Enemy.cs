@@ -31,5 +31,11 @@ namespace SpaceInvaders
                 xSpeed *= -1; 
             }
         }
+        public Boolean Collision(Bullet b)
+        {
+            Rectangle enemyRec = new Rectangle(x, y, width, height);
+            Rectangle bulletRec = new Rectangle(b.x, b.y, b.width, b.height);
+            return enemyRec.IntersectsWith(bulletRec);
+        }
     }
 }

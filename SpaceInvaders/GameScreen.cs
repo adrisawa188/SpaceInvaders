@@ -14,10 +14,12 @@ namespace SpaceInvaders
     {
         Player hero;
         Enemy enemy;
-        Bullet bullet;
+        Bullet bullet = null;
 
         Random randGen = new Random();
         Size screenSize;
+
+      
 
         List<Enemy> enemyList = new List<Enemy>();
         List<Bullet> bulletList = new List<Bullet>();
@@ -30,7 +32,15 @@ namespace SpaceInvaders
         {
             InitializeComponent();
             hero = new Player(300, 400);
-            enemy = new Enemy(300, 225, -3);
+
+            for (int i = 1; i <= 11; i++)
+            {
+                int x = i * 50;
+                
+
+                Enemy e = new Enemy(x, 225, -3);               
+                enemyList.Add(e);
+            }          
             screenSize = new Size(this.Width, this.Height);
 
         }
@@ -67,16 +77,32 @@ namespace SpaceInvaders
             }
         }
         private void gameTimer_Tick(object sender, EventArgs e)
-        {             
-            enemy.Move("left",screenSize); 
-            foreach (Bullet b in bulletList)
+        {
+            foreach (Enemy en in enemyList)
+            {
+                en.Move("left", screenSize);
+            }
+
+            //foreach (Bullet b in bulletList)
+            //{
+            //    b.Move("up", screenSize);
+            //}
+
+            if(bullet != null)
             {
                 bullet.Move("up", screenSize);
+            }
+            if (bullet != null)
+            {
+                if (bullet.y < 0)
+                {
+                    bullet = null;
+                }
             }
 
             PlayerMovement();
             NewBullet();
-
+            BulletsEnemyCollision();
 
             Refresh();
         }
@@ -97,22 +123,47 @@ namespace SpaceInvaders
 
         public void NewBullet()
         {
-            if (spaceBarDown == true)
+            if (spaceBarDown == true && bullet ==null)
+            {        
+                bullet = new Bullet(hero.x, hero.y, 15);               
+            }
+
+       
+        }
+
+        public void BulletsEnemyCollision()
+        {
+            foreach (Enemy e in enemyList)
             {
-                Bullet b = new Bullet(hero.x, hero.y, 15);
-                bulletList.Add(b);
+                if (bullet != null)
+                {
+                    if (e.Collision(bullet))
+                    {
+                        bullet = null;
+                        enemyList.Remove(e);
+                        return;
+                    }
+                }
             }
         }
 
         private void GameScreen_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brushes.DodgerBlue, hero.x, hero.y, hero.width, hero.height);
-            e.Graphics.FillRectangle(Brushes.Red, enemy.x, enemy.y, enemy.width, enemy.height);
+             e.Graphics.FillRectangle(Brushes.DodgerBlue, hero.x, hero.y, hero.width, hero.height);
 
-            foreach (Bullet b in bulletList)
+            foreach (Enemy en in enemyList)
+            {
+                e.Graphics.FillRectangle(Brushes.Red, en.x, en.y, en.width, en.height);
+            }
+
+            if (bullet != null)
             {
                 e.Graphics.FillRectangle(Brushes.Green, bullet.x, bullet.y, bullet.width, bullet.height);
             }
+            //foreach (Bullet b in bulletList)
+            //{
+            //    e.Graphics.FillRectangle(Brushes.Green, b.x, b.y, b.width, b.height);
+            //}
         }
     }
 }
