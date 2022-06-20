@@ -27,7 +27,7 @@ namespace SpaceInvaders
         {
             y -= ySpeed;
 
-            if (y > ss.Height - height)
+            if (y > ss.Height)
             {
                 ySpeed *= -1;
             }

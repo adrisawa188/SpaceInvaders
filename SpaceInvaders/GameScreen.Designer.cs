@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
+            this.scoreLabel = new System.Windows.Forms.Label();
+            this.livesLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -38,11 +40,33 @@
             this.gameTimer.Interval = 20;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
+            // scoreLabel
+            // 
+            this.scoreLabel.ForeColor = System.Drawing.Color.White;
+            this.scoreLabel.Location = new System.Drawing.Point(497, 0);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(100, 23);
+            this.scoreLabel.TabIndex = 0;
+            this.scoreLabel.Text = "Score: 0";
+            this.scoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // livesLabel
+            // 
+            this.livesLabel.ForeColor = System.Drawing.Color.White;
+            this.livesLabel.Location = new System.Drawing.Point(3, 0);
+            this.livesLabel.Name = "livesLabel";
+            this.livesLabel.Size = new System.Drawing.Size(100, 23);
+            this.livesLabel.TabIndex = 1;
+            this.livesLabel.Text = "Lives:";
+            this.livesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // GameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
+            this.Controls.Add(this.livesLabel);
+            this.Controls.Add(this.scoreLabel);
             this.DoubleBuffered = true;
             this.Name = "GameScreen";
             this.Size = new System.Drawing.Size(600, 450);
@@ -56,5 +80,7 @@
         #endregion
 
         private System.Windows.Forms.Timer gameTimer;
+        private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Label livesLabel;
     }
 }

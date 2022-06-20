@@ -19,7 +19,10 @@ namespace SpaceInvaders
         Random randGen = new Random();
         Size screenSize;
 
-      
+        public static int score;
+        int lives = 3;
+
+        int enemySpeed = 3;
 
         List<Enemy> enemyList = new List<Enemy>();
         List<Bullet> bulletList = new List<Bullet>();
@@ -32,17 +35,22 @@ namespace SpaceInvaders
         {
             InitializeComponent();
             hero = new Player(300, 400);
+            GameStart();
+        }
+       
 
+        public void GameStart ()
+        {
             for (int i = 1; i <= 11; i++)
             {
                 int x = i * 50;
-                
 
-                Enemy e = new Enemy(x, 225, -3);               
+                Enemy e = new Enemy(x, 225, enemySpeed);
                 enemyList.Add(e);
-            }          
+            }
             screenSize = new Size(this.Width, this.Height);
 
+            livesLabel.Text = $"Lives: {lives}";
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -83,11 +91,6 @@ namespace SpaceInvaders
                 en.Move("left", screenSize);
             }
 
-            //foreach (Bullet b in bulletList)
-            //{
-            //    b.Move("up", screenSize);
-            //}
-
             if(bullet != null)
             {
                 bullet.Move("up", screenSize);
@@ -103,6 +106,7 @@ namespace SpaceInvaders
             PlayerMovement();
             NewBullet();
             BulletsEnemyCollision();
+            EnemyReachesPlayer();
 
             Refresh();
         }
@@ -128,6 +132,7 @@ namespace SpaceInvaders
                 bullet = new Bullet(hero.x, hero.y, 15);               
             }
 
+          
        
         }
 
@@ -141,8 +146,39 @@ namespace SpaceInvaders
                     {
                         bullet = null;
                         enemyList.Remove(e);
+                        score = score + 15;
+                        scoreLabel.Text = $" Score: {score}";
+
+                        if (enemyList.Count == 0)
+                        {
+                            enemySpeed++;                          
+                            GameStart();
+                        }
+
                         return;
                     }
+                }
+            }
+        }
+
+        public void EnemyReachesPlayer()
+        {
+            foreach (Enemy e in enemyList)
+            {
+                if (e.Collision(hero))
+                {
+                    lives--;
+                    score = score - 10;
+                    scoreLabel.Text = $" Score: {score}";
+                    livesLabel.Text = $"Lives: {lives}";
+                    enemyList.Remove(e);    
+                    
+                    if (lives == 0)
+                    {
+                        Form1.ChangeScreen(this, new GameOverScreen());
+                    }
+
+                    return;
                 }
             }
         }
