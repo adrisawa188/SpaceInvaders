@@ -64,7 +64,7 @@
             // finalScoreLabel
             // 
             this.finalScoreLabel.ForeColor = System.Drawing.Color.White;
-            this.finalScoreLabel.Location = new System.Drawing.Point(224, 203);
+            this.finalScoreLabel.Location = new System.Drawing.Point(224, 201);
             this.finalScoreLabel.Name = "finalScoreLabel";
             this.finalScoreLabel.Size = new System.Drawing.Size(139, 23);
             this.finalScoreLabel.TabIndex = 2;

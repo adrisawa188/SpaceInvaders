@@ -45,7 +45,15 @@ namespace SpaceInvaders
             {
                 int x = i * 50;
 
-                Enemy e = new Enemy(x, 225, enemySpeed);
+                Enemy e = new Enemy(x, 125, enemySpeed);
+                enemyList.Add(e);
+            }
+
+            for (int i = 1; i <= 11; i++)
+            {
+                int x = i * 50;
+
+                Enemy e = new Enemy(x, 80, enemySpeed);
                 enemyList.Add(e);
             }
             screenSize = new Size(this.Width, this.Height);
@@ -129,7 +137,7 @@ namespace SpaceInvaders
         {
             if (spaceBarDown == true && bullet ==null)
             {        
-                bullet = new Bullet(hero.x, hero.y, 15);               
+                bullet = new Bullet(hero.x + 6, hero.y, 15);               
             }
 
           
@@ -171,8 +179,14 @@ namespace SpaceInvaders
                     score = score - 10;
                     scoreLabel.Text = $" Score: {score}";
                     livesLabel.Text = $"Lives: {lives}";
-                    enemyList.Remove(e);    
-                    
+                    enemyList.Remove(e);
+
+                    if (enemyList.Count == 0)
+                    {
+                        enemySpeed++;
+                        GameStart();
+                    }
+
                     if (lives == 0)
                     {
                         Form1.ChangeScreen(this, new GameOverScreen());
@@ -195,11 +209,7 @@ namespace SpaceInvaders
             if (bullet != null)
             {
                 e.Graphics.FillRectangle(Brushes.Green, bullet.x, bullet.y, bullet.width, bullet.height);
-            }
-            //foreach (Bullet b in bulletList)
-            //{
-            //    e.Graphics.FillRectangle(Brushes.Green, b.x, b.y, b.width, b.height);
-            //}
+            }        
         }
     }
 }

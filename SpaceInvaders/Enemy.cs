@@ -27,7 +27,7 @@ namespace SpaceInvaders
 
             if (x > ss.Width - width || x < 0)
             {
-                y = y + 10; 
+                y = y + 20; 
                 xSpeed *= -1; 
             }
         }
